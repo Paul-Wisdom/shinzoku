@@ -1,16 +1,17 @@
 import {Router} from 'express'
-import { authController } from '../interface/authController'
-import { verifySignatureUseCase } from '../application/use-cases/verifySignature'
-import { generateNounceUseCase } from '../application/use-cases/generateNounce'
-import { checkIfUserIsNewUseCase } from '../application/use-cases/checkForNewUser'
+import { AuthController } from '../interface/authController'
+import { verifySignatureUseCase } from '../application/use-cases/blockchain'
+import { generateNounceUseCase } from '../application/use-cases/encryption'
+import { checkIfUserIsNewUseCase } from '../application/use-cases/database'
 import { userRepository } from '../infrastructures/databases/userRepository'
 import { solanaService } from '../infrastructures/blockchain/solanaService'
 import { cryptoEncryptionService } from '../infrastructures/encryption/cryptoEncryptionService'
 
 const AuthRouter = Router()
 
-const controller = authController({verifySignature: verifySignatureUseCase(solanaService), generateNounce: generateNounceUseCase(cryptoEncryptionService), checkIfUserIsNew: checkIfUserIsNewUseCase(userRepository)})
+const controller = AuthController({verifySignature: verifySignatureUseCase(solanaService), generateNounce: generateNounceUseCase(cryptoEncryptionService), checkIfUserIsNew: checkIfUserIsNewUseCase(userRepository)})
 AuthRouter.post('/request-nonce', controller.getNonceController)
 AuthRouter.post('/verify-signature', controller.postVerifySignatureController)
+// AuthRouter.post('/verify-jwt', controller.verifyJWT)
 
-export {AuthRouter}
+export {AuthRouter, controller as authController}

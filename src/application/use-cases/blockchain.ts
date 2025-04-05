@@ -1,4 +1,4 @@
-import { SolanaService } from "../../utils/types"
+import { SolanaService } from "../../types/types"
 
 export const verifySignatureUseCase = (solanaService: SolanaService) => {
     return (pubKey: string, signature: string, message: string) => {

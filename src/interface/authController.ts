@@ -1,13 +1,14 @@
-import { Request, Response } from "express"
-import {sign} from 'jsonwebtoken'
+import { NextFunction, Request, Response } from "express"
+import {sign, verify} from 'jsonwebtoken'
 
 import { nonces } from "../app"
 import { JWT_SECRET } from "../utils/config"
-import { CheckIfUserIsNew, VerifySignatureUseCase, GenerateNounceUseCase } from "../utils/types"
+import { CheckIfUserIsNew, VerifySignatureUseCase, GenerateNounceUseCase } from "../types/types"
+import { error, log } from "console"
 
 
 const generalmessage = "This is a nonce to verify the signature. Its value is: "
-export const authController = ({verifySignature, generateNounce, checkIfUserIsNew}:{verifySignature: VerifySignatureUseCase, generateNounce: GenerateNounceUseCase, checkIfUserIsNew: CheckIfUserIsNew}) => {
+export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNew}:{verifySignature: VerifySignatureUseCase, generateNounce: GenerateNounceUseCase, checkIfUserIsNew: CheckIfUserIsNew}) => {
     return {
         postVerifySignatureController: async (req: Request, res: Response) => {
             const {publicKey, signature} = req.body //publicKey and signature encoded as base58 using bs58
@@ -50,6 +51,31 @@ export const authController = ({verifySignature, generateNounce, checkIfUserIsNe
             nonces.set(publicKey, generatedNounce)
         
             res.json({nonce: generatedNounce, message: generalmessage})
+        },
+
+        verifyJWT: (req: Request, res: Response, next: NextFunction) => {
+            const {token} = req.body
+            if(!token){
+                res.status(400).json({error: "No JWT Provided"});
+            }
+            try{
+                const verifiedToken = verify(token, JWT_SECRET);
+                console.log(verifiedToken);
+                
+                req.user = verifiedToken as {publicKey: string}
+                console.log(req.user.publicKey);
+                next()
+                
+            }
+            catch(error){
+                console.log(error);
+                res.status(401).json({error: "Invalid JWT"})
+                return
+                
+            }
+            
+
+            //req.user = verifiedToken.publicKey
         }
     }
 }
