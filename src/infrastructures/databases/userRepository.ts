@@ -20,4 +20,7 @@ export const userRepository: UserRepo = {
         user.account = userAccount
         return userRepo.save(user)
     },
+    saveUser: async (user: User) => {
+        return userRepo.save(user)
+    }
 }

@@ -3,12 +3,12 @@ import {sign, verify} from 'jsonwebtoken'
 
 import { nonces } from "../app"
 import { JWT_SECRET } from "../utils/config"
-import { CheckIfUserIsNew, VerifySignatureUseCase, GenerateNounceUseCase } from "../types/types"
+import { CheckIfUserIsNewUseCase, VerifySignatureUseCase, GenerateNounceUseCase } from "../types/types"
 import { error, log } from "console"
 
 
 const generalmessage = "This is a nonce to verify the signature. Its value is: "
-export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNew}:{verifySignature: VerifySignatureUseCase, generateNounce: GenerateNounceUseCase, checkIfUserIsNew: CheckIfUserIsNew}) => {
+export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNew}:{verifySignature: VerifySignatureUseCase, generateNounce: GenerateNounceUseCase, checkIfUserIsNew: CheckIfUserIsNewUseCase}) => {
     return {
         postVerifySignatureController: async (req: Request, res: Response) => {
             const {publicKey, signature} = req.body //publicKey and signature encoded as base58 using bs58
@@ -34,6 +34,7 @@ export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNe
                 return
             }
             const token = sign({publicKey}, JWT_SECRET, {expiresIn: '1h'});
+            console.log(token);
             
             //check if user is new
             const newUser = await checkIfUserIsNew(publicKey);

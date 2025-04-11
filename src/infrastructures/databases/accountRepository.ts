@@ -9,7 +9,7 @@ export const accountRepository = {
         const account = new Account()
         account.user = user
         account.kino = 3000
-        account.gems = 100
+        account.gems = 10
         return accountRepo.save(account)
     }
 
