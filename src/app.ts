@@ -10,8 +10,8 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use('/api', AuthRouter);
-app.use('/api', UserRouter);
-app.use('/api', CharacterRouter);
+app.use('/api/users', UserRouter);
+app.use('/api/characters', CharacterRouter);
 
 export {nonces, app}
 

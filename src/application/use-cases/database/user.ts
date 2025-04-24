@@ -8,7 +8,7 @@ export const checkIfUserIsNewUseCase = (userRepository: UserRepo) => {
         return user ? false : true
     }
     
-}    
+}   
 
 export const checkIfUsernameIsUniqueUseCase = (userRepository: UserRepo) => {
     return async (username: string) => {

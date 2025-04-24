@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, PrimaryColumn, Unique, OneToOne, JoinColumn, Relation, OneToMany } from "typeorm"
 import { Account } from "./account.entity"
 import { Character } from "./character.entity"
+import { Referral } from "./referral.entity"
 
 @Entity()
 export class User{
@@ -18,5 +19,9 @@ export class User{
     @OneToMany(() => Character, (char) => char.user)
     @JoinColumn()
     characters: Relation<Character[]>
+
+    @OneToOne(() => Referral, (referral) => referral.user)
+    @JoinColumn()
+    referral: Relation<Referral>
 
 }

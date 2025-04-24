@@ -4,6 +4,7 @@ import { Character } from "../entity/character.entity"
 import { GameCharacter } from "../infrastructures/game-engine/classes/characters"
 import { UpdateResult } from "typeorm"
 import { specialAbilityData } from "../infrastructures/game-engine/types"
+import { Referral } from "../entity/referral.entity"
 
 export type UserRepo = {
     findUserByPublicKey: (key: string) => Promise<User | null>,
@@ -24,6 +25,10 @@ export type CharacterRepository = {
     getRandomHealerSpecialAbility: () => specialAbilityData
     
 };
+export type ReferralRepository = {
+    create: (user: User) => Promise<Referral>;
+    incrementReferrals: (referralCode: string) => Promise<Referral | null>;
+}
 export type SolanaService = {
     verifySignature: (pubKey: string, signature: string, message: string) => boolean,
     convertStringToPublicKey: (key: string) => PublicKey,
@@ -57,7 +62,7 @@ export type GenerateSpecialAbilitiesUseCase = () => {
 export type MintSpecialAbilityUseCase = (ability: specialAbilityData[], publicKey: string) => Promise<specialAbilityDataWithNFT[]>
 export type MintCharacterUseCase = (characters: Character, publicKey: string) => Promise<string>
 export type UpdateCharacterNftIdUseCase = (charId: string, nftID: string) => Promise<Character>;
-
+export type UpdateReferralUseCase =  (referralCode: string) => Promise<Referral | null>
 export type UserType = {
     publicKey: string
 }
