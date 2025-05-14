@@ -58,6 +58,7 @@ export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNe
             const {token} = req.body
             if(!token){
                 res.status(400).json({error: "No JWT Provided"});
+                return
             }
             try{
                 const verifiedToken = verify(token, JWT_SECRET);
@@ -70,9 +71,8 @@ export const AuthController = ({verifySignature, generateNounce, checkIfUserIsNe
             }
             catch(error){
                 console.log(error);
-                res.status(401).json({error: "Invalid JWT"})
-                return
-                
+                // throw Error("Invalid JWT")
+                res.status(401).json({error: "Invalid JWT"})    
             }
             
 
