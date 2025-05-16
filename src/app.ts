@@ -13,6 +13,9 @@ app.use('/api/auth', AuthRouter);
 app.use('/api/users', UserRouter);
 app.use('/api/characters', CharacterRouter);
 app.use('/api/game', GameRouter)
+app.get('/', (req, res) => {
+    res.send('Hello World!')
+})
 
 export {nonces, app}
 
