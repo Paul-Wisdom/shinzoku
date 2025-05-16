@@ -3,5 +3,5 @@ dotenv.config()
 
 const JWT_SECRET: string = process.env.JWT_SECRET as string
 const DB_URL: string = process.env.DB_URL as string
-
-export {JWT_SECRET, DB_URL}
+const PORT: number = parseInt(process.env.PORT as string) || 3000
+export {JWT_SECRET, DB_URL , PORT}
