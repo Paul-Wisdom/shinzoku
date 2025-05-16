@@ -14,5 +14,8 @@ export const AppDataSource = new DataSource({
     entities: [User, Account, Character, Referral],
     migrations: [],
     subscribers: [],
-    url: DB_URL
+    url: DB_URL,
+    ssl: {
+    rejectUnauthorized: false, // Use this in production services like Render
+  },
 })
