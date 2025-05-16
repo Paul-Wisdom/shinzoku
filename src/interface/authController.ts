@@ -4,7 +4,6 @@ import {sign, verify} from 'jsonwebtoken'
 import { nonces } from "../app"
 import { JWT_SECRET } from "../utils/config"
 import { CheckIfUserIsNewUseCase, VerifySignatureUseCase, GenerateNounceUseCase } from "../types/types"
-import { error, log } from "console"
 
 
 const generalmessage = "This is a nonce to verify the signature. Its value is: "

@@ -9,7 +9,7 @@ import { Referral } from "./entity/referral.entity"
 export const AppDataSource = new DataSource({
     type: "postgres",
     synchronize: true,
-    dropSchema: true,
+    dropSchema: false,
     logging: false,
     entities: [User, Account, Character, Referral],
     migrations: [],

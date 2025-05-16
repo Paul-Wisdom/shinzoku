@@ -9,7 +9,7 @@ export const generateStarterCharacterUseCase = (charRepo: CharacterRepository) =
     return async (user: User, abilities: specialAbilityDataWithNFTObject) => {
         const charArray: Character[] = [];
 
-       const warriorPromises =  abilities.warrior.map(async (ability, index) => {
+        const warriorPromises = abilities.warrior.map(async (ability, index) => {
             const char = await charRepo.generateRandomWarrior(`warrior ${index + 1}`, user, ability);
             // char.specialAbilities.push(ability)
             charArray.push(char)
@@ -70,5 +70,33 @@ export const generateSpecialAbilitiesUseCase = (charRepo: CharacterRepository) =
 export const updateCharacterNftIdUseCase = (charRepo: CharacterRepository) => {
     return async (charId: string, nftID: string) => {
         return await charRepo.updateCharacterNftId(charId, nftID);
+    }
+}
+
+export const getCharacterByIdUseCase = (charRepo: CharacterRepository) => {
+    return async (id: string) => {
+        return await charRepo.getCharacterById(id);
+    }
+}
+
+export const getCharacterByNftIdUseCase = (charRepo: CharacterRepository) => {
+    return async (nftID: string) => {
+        return await charRepo.getCharacterByNftId(nftID);
+    }
+}
+
+export const getUserCharactersUseCase = (charRepo: CharacterRepository) => {
+    return async (characterIds: string[], userPublicKey: string) => {
+        const playerTeam: Character[] = await Promise.all(
+            characterIds.map(async (id: string) => {
+                const character = await charRepo.getUserCharacter(id, userPublicKey)
+                if (!character) {
+                    throw new Error("Character not  found")
+                }
+                return character
+            })
+        )
+
+        return playerTeam
     }
 }

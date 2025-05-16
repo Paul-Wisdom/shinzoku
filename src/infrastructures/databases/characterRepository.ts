@@ -1,3 +1,4 @@
+import { get } from "http";
 import { AppDataSource } from "../../data-source";
 import { Character } from "../../entity/character.entity";
 import { User } from "../../entity/user.entity";
@@ -25,6 +26,12 @@ export const characterRepository = {
     },
     getCharacterByNftId: async (nftID: string) => {
         return charRepo.findOneBy({ nftID });
+    },
+    getUserCharacter: async (characterId: string, userPublicKey: string) => {
+        return charRepo.findOne({
+            where: {user: { publicKey: userPublicKey }, id: characterId },
+            relations: ["user"]
+        });
     },
     generateRandomWarrior: async (name: string, user: User, ability: specialAbilityDataWithNFT) => {
         const char = new Character();

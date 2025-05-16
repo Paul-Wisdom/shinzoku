@@ -6,6 +6,6 @@ export const simulateBattleUseCase = (engine: GameService) => {
         const team1 = team1Char.map((character) => engine.getPlayerDataFromCharacter(character))
         const team2 = team2Char.map((character) => engine.getPlayerDataFromCharacter(character))
 
-        engine.simulateBattle(team1name, team1, team2name, team2)
+        return engine.simulateBattle(team1name, team1, team2name, team2)
     }
 }

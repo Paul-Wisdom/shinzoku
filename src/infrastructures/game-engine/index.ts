@@ -2,12 +2,13 @@ import { AutoBattleField } from "./classes/autoBattlefield";
 import { GameCharacter, Attribute, SpecialAbility } from "./classes/characters";
 import { Team } from "./classes/teams";
 import { Character } from "../../entity/character.entity";
+import { GameService } from "../../types/types";
 
 
-export const gameEngine = {
+export const gameEngine: GameService = {
     getPlayerDataFromCharacter: (character: Character) => {
         const armor = new Attribute('armor', character.attributes.armor);
-        const dmg = new Attribute('attack', character.attributes.dmg);
+        const dmg = new Attribute('dmg', character.attributes.dmg);
         const hp = new Attribute('hp', character.attributes.hp);
         const mp = new Attribute('mp', character.attributes.mp);
         const range = new Attribute('range', character.attributes.range);
@@ -27,7 +28,7 @@ export const gameEngine = {
         const secondTeam = new Team(team2name, team2);
 
         const battleield = new AutoBattleField(firstTeam, secondTeam);
-        battleield.runBattle()
+        return battleield.runBattle()
 
     },
 } 

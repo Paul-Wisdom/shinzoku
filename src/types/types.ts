@@ -5,6 +5,7 @@ import { GameCharacter } from "../infrastructures/game-engine/classes/characters
 import { UpdateResult } from "typeorm"
 import { specialAbilityData } from "../infrastructures/game-engine/types"
 import { Referral } from "../entity/referral.entity"
+import { Team } from "../infrastructures/game-engine/classes/teams"
 
 export type UserRepo = {
     findUserByPublicKey: (key: string) => Promise<User | null>,
@@ -16,6 +17,7 @@ export type CharacterRepository = {
     getCharacterById: (id: string) => Promise<Character | null>,
     getAllCharacters: () => Promise<Character[]>,
     getCharacterByNftId: (nftID: string) => Promise<Character | null>,
+    getUserCharacter: (characterId: string, userPublicKey: string) => Promise<Character | null>
     generateRandomWarrior: (name: string,  user: User, ability: specialAbilityDataWithNFT) => Promise<Character>,
     generateRandomMage: (name: string,  user: User, ability: specialAbilityDataWithNFT) => Promise<Character>,
     generateRandomHealer: (name: string, user: User, ability: specialAbilityDataWithNFT) => Promise<Character>,
@@ -41,11 +43,11 @@ export type CryptoEncryptionService = {
 }
 
 export type GameService = {
-    simulateBattle: (team1name: string, team1: GameCharacter[], team2name: string, team2: GameCharacter[]) => void,
+    simulateBattle: (team1name: string, team1: GameCharacter[], team2name: string, team2: GameCharacter[]) => Team,
     getPlayerDataFromCharacter: (character: Character) => GameCharacter
 }
 
-export type SimulateBattleUseCase = (team1name: string, team1Char: Character[], team2name: string, team2Char: Character[]) => void
+export type SimulateBattleUseCase = (team1name: string, team1Char: Character[], team2name: string, team2Char: Character[]) => Team
 export type CheckIfUserIsNewUseCase = (key: string) => Promise<boolean>
 export type GenerateNounceUseCase = () => string
 export type VerifySignatureUseCase = (pubKey: string, signature: string, message: string) => boolean
@@ -63,6 +65,9 @@ export type MintSpecialAbilityUseCase = (ability: specialAbilityData[], publicKe
 export type MintCharacterUseCase = (characters: Character, publicKey: string) => Promise<string>
 export type UpdateCharacterNftIdUseCase = (charId: string, nftID: string) => Promise<Character>;
 export type UpdateReferralUseCase =  (referralCode: string) => Promise<Referral | null>
+export type GetCharacterByIdUseCase = (id: string) => Promise<Character | null>
+export type GetCharacterByNftIdUseCase = (nftID: string) => Promise<Character | null>
+export type GetUserCharactersUseCase = (characterIds: string[], userPublicKey: string) => Promise<Character[]>
 export type UserType = {
     publicKey: string
 }

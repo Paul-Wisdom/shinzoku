@@ -67,6 +67,7 @@ export class AutoBattleField {
         }
         const damage = attacker.getAttribute('dmg')?.getValue();
         const targetArmor = target.getAttribute('armor')?.getValue();
+        console.log(damage, targetArmor)
         if (!damage || !targetArmor) throw Error("damage or target armor not specified")
         let { hpDamage, armorDamage } = this.calculateHPArmorDamage(targetArmor, damage);
 
